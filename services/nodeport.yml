@@ -3,7 +3,7 @@ kind: Deployment
 metadata:
     name: ip-app-deployment 
 spec: 
-    replicas: 3
+    replicas: 4
     selector:
         matchLabels:
             app: ip-app
@@ -25,9 +25,11 @@ kind: Service
 metadata:
     name: ip-app-cluster-ip
 spec: 
+    type: NodePort
     selector:
         app: ip-app
     ports:
        - name: http
          port: 30002     
          targetPort: 80
+         nodePort: 30080
