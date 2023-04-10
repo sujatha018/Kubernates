@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata: 
+  name: ip-app-Statefulset
+spec:
+  replicas: 4
+  template: 
+    metadata: 
+      Labels:
+        app: ip-app-sfs
+  spec: 
+    containers: 
+      - name: ipapp
+        image: harshajain/ip-app:1
+        ports:
+          - containerPort: 80
+  selector: 
+    metaLabels:
+      app: ip-app-sfs
+
+---
+
+apiVersion: v1
+kind: Service
+metadata: 
+  name: ip-app-headless-svc
+spec:
+  clusterIp: None
+  selector: 
+    app: ip-app-sfs
+  ports:
+    - name: http
+      port: 30006
+      targetPort: 80    
